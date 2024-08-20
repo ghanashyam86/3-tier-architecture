@@ -16,16 +16,7 @@ resource "aws_instance" "first_instance" {
   subnet_id               = var.subnet_id
   security_groups         = [aws_security_group.ssh-allow.id]
   count                   = 1
-  user_data               = <<-EOF
-      #!/bin/bash
-      sudo yum update -y
-      sudo yum install httpd -y
-      sudo systemctl start httpd
-      sudo systemctl enable httpd
-
-      echo "<h1> Successfully implementation of jenkins pipeline !!! </h1>" >> /var/www/html/index.html
-      sudo chmod 777 /var/www/html/index.html
-  EOF
+  user_data               = file("hello.sh") 
 
   tags = {
       Name = "first-instance"
